@@ -5,7 +5,7 @@ import sqlite3
 from helpers import validate_cpf
 
 
-conn = sqlite3.connect('car_rental.db')
+conn = sqlite3.connect('porto.db')
 c = conn.cursor()
 
 
