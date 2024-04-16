@@ -2,11 +2,11 @@ from tkinter import *
 from validate_docbr import CPF
 import sqlite3
 
-from service import *
+import service as car_service
 
 
 # sqlite database connection
-conn = sqlite3.connect('car_rental.db')
+conn = sqlite3.connect('porto.db')
 c = conn.cursor()
 
 # create user table with autoincrement id
@@ -16,6 +16,17 @@ c.execute('''CREATE TABLE IF NOT EXISTS users (
     cpf TEXT NOT NULL,
     password TEXT NOT NULL
 )''')
+
+# create car table with autoincrement id
+c.execute('''CREATE TABLE IF NOT EXISTS cars (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    car_type TEXT NOT NULL,
+    car_brand TEXT NOT NULL,
+    car_model TEXT NOT NULL,
+    car_year TEXT NOT NULL,
+    car_version TEXT NOT NULL
+)''')
+
 conn.commit()
 
 
@@ -78,7 +89,7 @@ def register():
     password_entry.pack()
 
     # register button + validating input + registering user
-    register_button = Button(root, text="Register", command=lambda: register_user(email_entry.get(), cpf_entry.get(), password_entry.get()))
+    register_button = Button(root, text="Register", command=lambda: car_service.register_user(email_entry.get(), cpf_entry.get(), password_entry.get()))
     register_button.pack()
 
     root.mainloop()
@@ -104,7 +115,7 @@ def login():
     password_entry.pack()
 
     # login button
-    login_button = Button(root, text="Login", command=lambda: login_user(email_entry.get(), password_entry.get()))
+    login_button = Button(root, text="Login", command=lambda: car_service.login_user(email_entry.get(), password_entry.get()))
     login_button.pack()
 
     root.mainloop()
@@ -112,14 +123,79 @@ def login():
 
 
 
-
+# fileds: car_type, car_brand, car_model, car_year, car_version
 def add_car():
+    root = Tk()
+    root.title("Add Car")
+    root.geometry("300x300")
+
+    # car type label and entry
+    car_type_label = Label(root, text="Car Type")
+    car_type_label.pack()
+    car_type_entry = Entry(root)
+    car_type_entry.pack()
+
+    # car brand label and entry
+    car_brand_label = Label(root, text="Car Brand")
+    car_brand_label.pack()
+    car_brand_entry = Entry(root)
+    car_brand_entry.pack()
+
+    # car model label and entry
+    car_model_label = Label(root, text="Car Model")
+    car_model_label.pack()
+    car_model_entry = Entry(root)
+    car_model_entry.pack()
+
+    # car year label and entry
+    car_year_label = Label(root, text="Car Year")
+    car_year_label.pack()
+    car_year_entry = Entry(root)
+    car_year_entry.pack()
+
+    # car version label and entry
+    car_version_label = Label(root, text="Car Version")
+    car_version_label.pack()
+    car_version_entry = Entry(root)
+    car_version_entry.pack()
+
+    # add car button
+    add_car_button = Button(root, text="Add Car", command=lambda: car_service.add_car(car_type_entry.get(), car_brand_entry.get(), car_model_entry.get(), car_year_entry.get(), car_version_entry.get()))
+    add_car_button.pack()
+
+    root.mainloop()
     return
+
 
 def view_car():
+    root = Tk()
+    root.title("View Car")
+    root.geometry("300x300")
+
+    # view car button
+    view_car_button = Button(root, text="View Car", command=car_service.view_car)
+    view_car_button.pack()
+
+    root.mainloop()
     return
 
+
 def delete_car():
+    root = Tk()
+    root.title("Delete Car")
+    root.geometry("300x300")
+
+    # car id label and entry
+    car_id_label = Label(root, text="Car ID")
+    car_id_label.pack()
+    car_id_entry = Entry(root)
+    car_id_entry.pack()
+
+    # delete car button
+    delete_car_button = Button(root, text="Delete Car", command=lambda: car_service.delete_car(car_id_entry.get()))
+    delete_car_button.pack()
+
+    root.mainloop()
     return
 
 menu()
